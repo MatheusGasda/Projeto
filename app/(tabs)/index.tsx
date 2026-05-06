@@ -7,18 +7,15 @@ export default function HomeScreen() {
   return (
    <View style={Styles.view}>
 
-    <Text style={Styles.title}>Chapter One11111</Text>
+   <Text style={Styles.title}>Chapter One</Text>
     
     <TextInput
-    placeholder='Digite aquiiiiiiiii: '
+    placeholder='Digite seu email: '
     value={texto}
     onChangeText={setTexto}
     style={Styles.input}
     />
-   <Image source={require('@/assets/images/loba.jpg')} style={Styles.image}/>
   </View>
-
-
 
   );
 }
