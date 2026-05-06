@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, View,TouchableOpacity } from 'react-native';
 
 
 export default function HomeScreen() {
@@ -15,6 +15,15 @@ export default function HomeScreen() {
     onChangeText={setTexto}
     style={Styles.input}
     />
+
+<TouchableOpacity
+onPress={() => alert('clicou!')}
+style={[ Styles.title, { backgroundColor: '#b0b7bdff', padding: 10, borderRadius: 5 } ]}>
+
+      <Text>Login</Text>
+      
+</TouchableOpacity>
+     
   </View>
 
   );
