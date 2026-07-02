@@ -1,58 +1,83 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, View,TouchableOpacity } from 'react-native';
-
+import { ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
 export default function HomeScreen() {
-  const [texto, setTexto] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
   return (
-   <View style={Styles.view}>
-
-   <Text style={Styles.title}>Chapter One</Text>
     
-    <TextInput
-    placeholder='Digite seu email: '
-    value={texto}
-    onChangeText={setTexto}
-    style={Styles.input}
-    />
+    <ImageBackground 
+      source={require('@/assets/images/Login(manga).png')} 
+      style={Styles.background}
+    >
+      <Text style={Styles.title}>Chapter One</Text>
 
-<TouchableOpacity
-onPress={() => alert('clicou!')}
-style={[ Styles.title, { backgroundColor: '#b0b7bdff', padding: 10, borderRadius: 5 } ]}>
+      <TextInput 
+        placeholder='Digite seu email: ' 
+        value={email} 
+        onChangeText={setEmail} 
+        style={Styles.input}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        placeholderTextColor="#666"
+      />
 
-      <Text>Login</Text>
-      
-</TouchableOpacity>
-     
-  </View>
+      <TextInput 
+        placeholder='Digite sua senha: ' 
+        value={senha} 
+        onChangeText={setSenha} 
+        style={Styles.input}
+        secureTextEntry={true}
+        placeholderTextColor="#666"
+      />
 
+      <TouchableOpacity 
+        onPress={() => alert(`Login com: ${email}`)} 
+        style={Styles.button}
+      >
+        <Text style={Styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 }
 
-
 const Styles = StyleSheet.create({
-  view:{
-    flex:1,
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    textAlign: 'center', 
+    textAlign: 'center',
     marginBottom: 20,
-    color: '#333'
+    color: '#fff', 
   },
-  
-  input: { 
-  width: '100%', 
-  borderWidth: 1,
-  padding: 10, 
-  marginBottom: 20,
- },
- image:{
-  width:200,
-  height:200,
-
- },
-})
+  input: {
+    width: '80%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+    borderRadius: 5,
+    padding: 12,
+    marginBottom: 20,
+  },
+  button: {
+    width: '80%',
+    backgroundColor: '#b0b7bd',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  }
+});
