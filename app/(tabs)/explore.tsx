@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  Image // Mantido para renderizar as fotos locais
+  ,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -8,6 +10,22 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+
+// Dados dinâmicos das categorias com suas respectivas imagens locais
+// Altere os caminhos dentro do require de acordo com as pastas do seu projeto
+const CATEGORIAS = [
+  { id: '1', label: 'Romance', image: require('@/assets/images/marin.png') },
+  { id: '2', label: 'Ação', image: require('@/assets/images/images (4).png') },
+  { id: '3', label: 'Aventura', image: require('@/assets/images/frieren.jpg') },
+  { id: '4', label: 'Shoujo', image: require('@/assets/images/nana.jpg') },
+];
+
+// Dados dinâmicos dos livros/mangás mais lidos com imagens locais
+const MAIS_LIDOS = [
+  { id: '1', image: require('@/assets/images/images (1).png') },
+  { id: '2', image: require('@/assets/images/Mushoku_Tensei_1.png') },
+  { id: '3', image: require('@/assets/images/81Q6apsioXL.jpg') }, 
+];
 
 export default function TabTwoScreen() {
   return (
@@ -38,7 +56,11 @@ export default function TabTwoScreen() {
 
         {/* Banner Carrossel */}
         <View style={styles.bannerContainer}>
-          <View style={styles.banner} />
+          {/* Alterado para carregar uma imagem local */}
+          <Image 
+            source={require('@/assets/images/image-107-1024x576.png')} 
+            style={styles.banner} 
+          />
           {/* Indicadores de Página (Dots) */}
           <View style={styles.dotsContainer}>
             {[1, 2, 3, 4, 5].map((_, index) => (
@@ -64,14 +86,13 @@ export default function TabTwoScreen() {
           showsHorizontalScrollIndicator={false} 
           contentContainerStyle={styles.categoriesList}
         >
-          {[
-            { id: 1, label: 'Romance' },
-            { id: 2, label: 'Ação' },
-            { id: 3, label: 'Aventura' },
-            { id: 4, label: 'Shoujo' },
-          ].map((item) => (
+          {CATEGORIAS.map((item) => (
             <View key={item.id} style={styles.categoryItem}>
-              <View style={styles.categoryCircle} />
+              {/* Alterado de {{ uri }} para receber a referência local diretamente */}
+              <Image 
+                source={item.image} 
+                style={styles.categoryCircle} 
+              />
               <Text style={styles.categoryLabel}>{item.label}</Text>
             </View>
           ))}
@@ -91,9 +112,14 @@ export default function TabTwoScreen() {
           showsHorizontalScrollIndicator={false} 
           contentContainerStyle={styles.mostReadList}
         >
-          <View style={styles.cardRectangle} />
-          <View style={styles.cardRectangle} />
-          <View style={[styles.cardRectangle, styles.cardRectangleGray]} />
+          {MAIS_LIDOS.map((item) => (
+            /* Alterado para renderizar o caminho local sem a tag uri */
+            <Image 
+              key={item.id}
+              source={item.image} 
+              style={styles.cardRectangle} 
+            />
+          ))}
         </ScrollView>
 
       </ScrollView>
@@ -104,7 +130,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3D7A7A', // Tom de verde azulado do fundo principal
+    backgroundColor: '#3D7A7A', 
     paddingTop: 16,
   },
   searchContainer: {
@@ -143,10 +169,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   banner: {
-    backgroundColor: '#005F73', // Tom azul escuro do banner
     width: '100%',
     height: 160,
     borderRadius: 12,
+    resizeMode: 'cover', 
   },
   dotsContainer: {
     flexDirection: 'row',
@@ -200,11 +226,11 @@ const styles = StyleSheet.create({
     width: 76,
   },
   categoryCircle: {
-    backgroundColor: '#FFFFFF',
     width: 72,
     height: 72,
     borderRadius: 36,
     marginBottom: 8,
+    resizeMode: 'cover',
   },
   categoryLabel: {
     color: '#FFFFFF',
@@ -218,12 +244,9 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   cardRectangle: {
-    backgroundColor: '#FFFFFF',
     width: 150,
     height: 220,
     borderRadius: 4,
-  },
-  cardRectangleGray: {
-    backgroundColor: '#B0B0B0', // Terceiro card parcialmente visível
+    resizeMode: 'cover',
   },
 });
