@@ -1,112 +1,229 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+import React from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 export default function TabTwoScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        
+        {/* Barra de Busca */}
+        <View style={styles.searchContainer}>
+          <TextInput 
+            style={styles.searchInput} 
+            placeholder="Buscar" 
+            placeholderTextColor="#8E8E93"
+          />
+        </View>
+
+        {/* Botões de Filtro / Tags */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          contentContainerStyle={styles.tagsContainer}
+        >
+          {['Favoritos', 'Histórico', 'Seguindo', 'Pedidos'].map((tag, index) => (
+            <TouchableOpacity key={index} style={styles.tagButton}>
+              <Text style={styles.tagText}>{tag}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Banner Carrossel */}
+        <View style={styles.bannerContainer}>
+          <View style={styles.banner} />
+          {/* Indicadores de Página (Dots) */}
+          <View style={styles.dotsContainer}>
+            {[1, 2, 3, 4, 5].map((_, index) => (
+              <View 
+                key={index} 
+                style={[styles.dot, index === 0 ? styles.dotActive : styles.dotInactive]} 
+              />
+            ))}
+          </View>
+        </View>
+
+        {/* Seção Categorias */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Categorias</Text>
+          <TouchableOpacity style={styles.arrowCircle}>
+            <Text style={styles.arrowText}>➔</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Lista de Categorias Circulares */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          contentContainerStyle={styles.categoriesList}
+        >
+          {[
+            { id: 1, label: 'Romance' },
+            { id: 2, label: 'Ação' },
+            { id: 3, label: 'Aventura' },
+            { id: 4, label: 'Shoujo' },
+          ].map((item) => (
+            <View key={item.id} style={styles.categoryItem}>
+              <View style={styles.categoryCircle} />
+              <Text style={styles.categoryLabel}>{item.label}</Text>
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* Seção Mais Lidos */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Mais Lidos</Text>
+          <TouchableOpacity style={styles.arrowCircle}>
+            <Text style={styles.arrowText}>➔</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Lista de Mais Lidos (Cards Retangulares) */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          contentContainerStyle={styles.mostReadList}
+        >
+          <View style={styles.cardRectangle} />
+          <View style={styles.cardRectangle} />
+          <View style={[styles.cardRectangle, styles.cardRectangleGray]} />
+        </ScrollView>
+
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#3D7A7A', // Tom de verde azulado do fundo principal
+    paddingTop: 16,
   },
-  titleContainer: {
-    flexDirection: 'row',
+  searchContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  searchInput: {
+    backgroundColor: '#F2F2F7',
+    borderRadius: 10,
+    height: 44,
+    paddingHorizontal: 16,
+    fontSize: 16,
+  },
+  tagsContainer: {
+    paddingHorizontal: 16,
     gap: 8,
+    marginBottom: 24,
+  },
+  tagButton: {
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  bannerContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
+    alignItems: 'center',
+  },
+  banner: {
+    backgroundColor: '#005F73', // Tom azul escuro do banner
+    width: '100%',
+    height: 160,
+    borderRadius: 12,
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 12,
+    gap: 6,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  dotActive: {
+    backgroundColor: '#FFFFFF',
+  },
+  dotInactive: {
+    backgroundColor: '#FFFFFF60',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    gap: 8,
+  },
+  sectionTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  arrowCircle: {
+    backgroundColor: '#72A9A9',
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arrowText: {
+    color: '#3D7A7A',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  categoriesList: {
+    paddingHorizontal: 16,
+    gap: 16,
+    marginBottom: 24,
+  },
+  categoryItem: {
+    alignItems: 'center',
+    width: 76,
+  },
+  categoryCircle: {
+    backgroundColor: '#FFFFFF',
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    marginBottom: 8,
+  },
+  categoryLabel: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  mostReadList: {
+    paddingHorizontal: 16,
+    gap: 16,
+    paddingBottom: 24,
+  },
+  cardRectangle: {
+    backgroundColor: '#FFFFFF',
+    width: 150,
+    height: 220,
+    borderRadius: 4,
+  },
+  cardRectangleGray: {
+    backgroundColor: '#B0B0B0', // Terceiro card parcialmente visível
   },
 });
